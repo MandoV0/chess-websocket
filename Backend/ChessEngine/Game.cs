@@ -10,7 +10,13 @@ public class Game
         if (piece == null || piece.Color != Turn) return false;
 
         // Is move legal?
+        var legalMoves = piece.GetMoves(Board, move.From.X, move.From.Y);
 
+        // Illegal move
+        if (!legalMoves.Any(m => m.To.Equals(move.To))) return false;
+        
+
+        // Switch out Piece and perform move
         move.CapturedPiece = Board.BoardData[move.To.X, move.To.Y];
         Board.BoardData[move.To.X, move.To.Y] = piece;
         Board.BoardData[move.From.X, move.From.Y] = null;

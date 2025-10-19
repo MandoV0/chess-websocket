@@ -29,4 +29,9 @@ public class Pawn : Piece
         }
     }
 
+    public override Piece Clone()
+    {
+        return new Pawn(Color);
+    }
+
 }

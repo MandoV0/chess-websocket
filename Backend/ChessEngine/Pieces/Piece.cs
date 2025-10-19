@@ -30,4 +30,6 @@ public abstract class Piece
     public bool InBounds(int x, int y) => x >= 0 && x < 8 && y >= 0 && y < 8;
 
     public abstract IEnumerable<Move> GetMoves(Board board, int x, int y);
+
+    public abstract Piece Clone();
 }

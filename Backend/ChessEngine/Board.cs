@@ -53,4 +53,64 @@ public class Board
     /// <param name="color">Color of friendly Team</param>
     /// <returns>True if [X,Y] has an enemy, else false</returns>
     public bool IsEnemy(int x, int y, PieceColor color) => BoardData[x, y] != null && BoardData[x, y].Color != color;
+
+    public bool WouldBeInCheck(Move move, Piece piece)
+    {
+        var tempBoard = this.Clone();
+
+        tempBoard.BoardData[move.To.X, move.To.Y] = piece;
+        tempBoard.BoardData[move.From.X, move.From.Y] = null;
+
+        var kingPos = tempBoard.GetKingPos(piece.Color);
+
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                var boardPiece = tempBoard.BoardData[x, y];
+                if (boardPiece == null || boardPiece.Color == piece.Color) continue;
+
+                var moves = boardPiece.GetMoves(tempBoard, x, y);
+                if (moves.Any(m => m.To.Equals(kingPos)))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public Position GetKingPos(PieceColor color)
+    {
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                var piece = BoardData[x, y];
+                if (piece is King && piece.Color == color)
+                {
+                    return new Position(x, y);
+                }
+            }
+        }
+
+        throw new Exception("King not found");// King not found. Should not happen.
+    }
+    
+    public Board Clone()
+    {
+        var newBoard = new Board();
+ 
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                var piece = BoardData[x, y];
+                if (piece != null) newBoard.BoardData[x, y] = piece.Clone();
+            }
+        }
+
+        return newBoard;
+    }
+
 }
