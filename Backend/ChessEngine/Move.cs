@@ -1,4 +1,6 @@
-public class Move
+namespace Backend.ChessEngine
+{
+    public class Move
 {
     public Position From { get; set; }
     public Position To { get; set; }
@@ -10,4 +12,5 @@ public class Move
         To = to;
         CapturedPiece = capturedPiece;
     }
+}
 }

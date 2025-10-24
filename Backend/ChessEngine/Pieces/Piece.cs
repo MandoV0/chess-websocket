@@ -1,35 +1,38 @@
-public enum PieceColor { White, Black }
-
-public struct Position
+namespace Backend.ChessEngine
 {
-    public int X { get; set; }
-    public int Y { get; set; }
+    public enum PieceColor { White, Black }
 
-    public Position(int x, int y)
+    public struct Position
     {
-        X = x;
-        Y = y;
-    }
-}
+        public int X { get; set; }
+        public int Y { get; set; }
 
-public abstract class Piece
-{
-    public PieceColor Color { get; private set; }
-
-    protected Piece(PieceColor color)
-    {
-        Color = color;
+        public Position(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 
-    /// <summary>
-    /// To check if a move stays inside the board.
-    /// </summary>
-    /// <param name="x">Desired Position</param>
-    /// <param name="y">Desired Position</param>
-    /// <returns>True if the desired postion is inside the board, false otherwise</returns>
-    public bool InBounds(int x, int y) => x >= 0 && x < 8 && y >= 0 && y < 8;
+    public abstract class Piece
+    {
+        public PieceColor Color { get; private set; }
 
-    public abstract IEnumerable<Move> GetMoves(Board board, int x, int y);
+        protected Piece(PieceColor color)
+        {
+            Color = color;
+        }
 
-    public abstract Piece Clone();
+        /// <summary>
+        /// To check if a move stays inside the board.
+        /// </summary>
+        /// <param name="x">Desired Position</param>
+        /// <param name="y">Desired Position</param>
+        /// <returns>True if the desired postion is inside the board, false otherwise</returns>
+        public bool InBounds(int x, int y) => x >= 0 && x < 8 && y >= 0 && y < 8;
+
+        public abstract IEnumerable<Move> GetMoves(Board board, int x, int y);
+
+        public abstract Piece Clone();
+    }
 }
